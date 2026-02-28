@@ -27,7 +27,7 @@ segmentation and styling in one go.
 To use this package, ensure the `rust_canto.wasm` file is in your project directory.
 
 ```typst
-#import "@preview/auto-canto:0.1.0": quick-render
+#import "@preview/auto-canto:0.2.0": quick-render
 
 // 36pt font
 // use Libertinus Serif first (for ruby text)
@@ -49,18 +49,66 @@ To use this package, ensure the `rust_canto.wasm` file is in your project direct
 
 Live demo on YouTube: https://youtu.be/ivUu91eDfvY
 
+#### Jyutcitzi (粵切字) support (optional)
+
+This package can render Jyutcizi above Chinese characters, provided that the
+user has imported the
+[`se-jyutcitzi`](https://typst.app/universe/package/se-jyutcitzi) Typst package.
+
+To ensure that a clean dependency, the user has to pass the `jyutcitzi()`
+function from `se-jyutcitzi` package to the `jyutcit-ruby()` function in this
+package.
+
+```typ
+#import "@preview/se-jyutcitzi:0.3.2": *
+#import "@preview/auto-canto:0.2.0": *
+// #set page(height: auto, width: auto, margin: 1pt)
+#set text(24pt, font: "Chiron GoRound TC")
+#set par(justify: true)
+
+// Customize Jyutcitzi display
+#let default-style = (
+  rb-color:    rgb("#ff0000"),  // Annotation text color
+  rb-size:     0.8em,   // Annotation text size
+  word-sep:    0.2em,   // Chinese words separation
+  char-jp-sep: 0.2em,   // vertical space between words and Jyutping above
+)
+
+#let mytxt = [
+  你識唔識講廣東話？就算你識講廣東話都好，都可以遇到啲好𠮩𠹌嘅字，打都唔識打，最後都係要用番 abcd 算!
+]
+#jyutcit-ruby(mytxt, jyutcitzi: jyutcitzi)
+```
+
+![example Jyutcitzi output](jyutcitzi.png)
+
 ---
 
 ### API Reference
 
-#### `quick-render(txt, ..args)`
+#### `quick-render(it, ..args)`
 
 The primary high-level function. It fetches data from the WASM plugin and
 forwards it to the parser.
 
-* `txt`: The Cantonese string to process.
+* `it`: The item containing the Cantonese string to process.
 * `..args`: Named arguments forwarded to [`render-word-groups`](https://github.com/VincentTam/pycantonese-parser/blob/7ed67e5d/src/renderer.typ#L10-L15)
 (e.g. `romanization`, `style`).
+
+#### `jyutcit-ruby(it, jyutcitzi: none, style: (:))`
+
+Renders Cantonese text with **Jyutcitzi** annotations above each word.
+
+* **Note**: Requiresthe
+[`jyutcitzi`](https://github.com/VincentTam/jyutcitzi/blob/f0083491/lib.typ#L5)
+function from the `se-jyutcitzi` package passed as an argument.
+* `it`: The item containing the Cantonese string to process.
+* `jyutcitzi`: Named argument for the Jyutcitzi function.
+* `style`: a dictionary for the following four keys
+  - `rb-color`: ruby text color
+  - `rb-size`: ruby text size (in em)
+  - `word-sep`: horizontal separation between words (in em)
+  - `char-jp-sep`: vertical separation between ruby text and main text (in em)
 
 #### `annotate(txt)`
 
