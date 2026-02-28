@@ -8,6 +8,27 @@
   if type(txt) == str { bytes(txt) } else { txt }
 }
 
+/// Internal helper to extract text
+#let _extract-text(it) = {
+  if type(it) == str {
+    it
+  } else if type(it) == content {
+    if it.has("text") {
+      it.text
+    } else if it.has("children") {
+      it.children.map(_extract-text).join("")
+    } else if it.has("body") {
+      _extract-text(it.body)
+    } else if it == [ ] {
+      " "
+    } else {
+      ""
+    }
+  } else {
+    ""
+  }
+}
+
 /// Annotates text into a list of dictionaries containing word, reading, and Yale.
 /// Returns: array of {word: str, reading: str, yale: array}
 #let annotate(txt) = {
@@ -28,12 +49,15 @@
 
 /// A flexible wrapper that segments text and forwards all styling 
 /// parameters to the parser's rendering function.
-/// - txt: The Cantonese string to process
+/// - it: The item containing Cantonese string to process
 /// - args: Captures named arguments like romanization: "yale" or "jyutping"
-#let quick-render(txt, ..args) = {
-  // 1. Get the data from your WASM plugin
+#let quick-render(it, ..args) = {
+  // 1. Extract text from item
+  let txt = _extract-text(it)
+
+  // 2. Get the data from the WASM plugin
   let data = json(canto.annotate(bytes(txt)))
-  
-  // 2. Forward the data and all extra arguments to the parser
+
+  // 3. Forward the data and all extra arguments to the parser
   render-word-groups(data, ..args)
 }
