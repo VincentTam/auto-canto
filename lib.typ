@@ -29,8 +29,8 @@
   }
 }
 
-/// Annotates text into a list of dictionaries containing word, reading, and Yale.
-/// Returns: array of {word: str, reading: str, yale: array}
+/// Annotates text into a list of dictionaries containing word, jyutping, and Yale.
+/// Returns: array of {word: str, jyutping: str, yale: array}
 #let annotate(txt) = {
   json(canto.annotate(_to_bytes(txt)))
 }
