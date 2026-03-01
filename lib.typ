@@ -67,7 +67,7 @@
 ///
 /// Example:
 ///   #import "@preview/se-jyutcitzi:0.3.2": jyutcitzi
-///   #import "@preview/auto-canto:0.2.0": jyutcit-ruby
+///   #import "@preview/auto-canto:0.2.1": jyutcit-ruby
 ///   #jyutcit-ruby(it, jyutcitzi: jyutcitzi)
 #let jyutcit-ruby(it, jyutcitzi: none, style: (:)) = {
   assert(jyutcitzi != none, message: "jyutcit-ruby requires the jyutcitzi function from @preview/se-jyutcitzi")

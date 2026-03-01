@@ -26,8 +26,8 @@ segmentation and styling in one go.
 
 To use this package, ensure the `rust_canto.wasm` file is in your project directory.
 
-```typst
-#import "@preview/auto-canto:0.2.0": quick-render
+```typ
+#import "@preview/auto-canto:0.2.1": quick-render
 
 // 36pt font
 // use Libertinus Serif first (for ruby text)
@@ -35,14 +35,18 @@ To use this package, ensure the `rust_canto.wasm` file is in your project direct
 #set text(36pt, font: ("Libertinus Serif", "Noto Serif CJK HK"))
 
 // 1. Basic rendering (defaults to Jyutping)
-#quick-render("佢係好學生")
+#quick-render[都會大學入面3%人識用AB膠]
 
 // 2. Rendering with Yale romanization
-#quick-render("平時會成日睇書", romanization: "yale")
+#quick-render(romanization: "yale")[
+平時會成日睇書 
+]
 
 // 3. Customizing the underlying parser's style
+#let my-text = "廣東話好難學" 
 #let my-style = (rb-size: 0.7em, rb-color: blue)
-#quick-render("廣東話好難學", style: my-style)
+#let quicker-renderer = quick-render.with(style: my-style, visual-tones: false)
+#quicker-renderer(my-text)
 ```
 
 ![example output](example.png)
@@ -61,7 +65,7 @@ package.
 
 ```typ
 #import "@preview/se-jyutcitzi:0.3.2": *
-#import "@preview/auto-canto:0.2.0": *
+#import "@preview/auto-canto:0.2.1": *
 // #set page(height: auto, width: auto, margin: 1pt)
 #set text(24pt, font: "Chiron GoRound TC")
 #set par(justify: true)
@@ -75,7 +79,7 @@ package.
 )
 
 #let mytxt = [
-  你識唔識講廣東話？就算你識講廣東話都好，都可以遇到啲好𠮩𠹌嘅字，打都唔識打，最後都係要用番 abcd 算!
+  你識唔識講廣東話？就算你識講廣東話都好，都可以遇到啲好𠮩𠹌嘅字，就算係粵語母語者都好，都未必識得寫，最後要用abcd先得，就好似「bibu車」噉。所以，我呢個package一定幫到你。仲唔快啲下載？
 ]
 #jyutcit-ruby(mytxt, jyutcitzi: jyutcitzi)
 ```
