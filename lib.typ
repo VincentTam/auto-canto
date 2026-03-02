@@ -13,14 +13,16 @@
   if type(it) == str {
     it
   } else if type(it) == content {
-    if it.has("text") {
+    if it == parbreak() {
+      "\n\n"   // double newline → WASM plugin's segmenter emits two \n tokens
+    } else if it == linebreak() {
+      "\n"     // single newline → WASM plugin's segmenter emits one \n token
+    } else if it.has("text") {
       it.text
     } else if it.has("children") {
       it.children.map(_extract-text).join("")
     } else if it.has("body") {
       _extract-text(it.body)
-    } else if it == [ ] {
-      " "
     } else {
       ""
     }
