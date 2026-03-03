@@ -1,4 +1,4 @@
-#import "@preview/pycantonese-parser:0.2.0": *
+#import "@preview/canto-parser:0.2.1": *
 
 // Load the plugin
 #let canto = plugin("rust_canto.wasm")

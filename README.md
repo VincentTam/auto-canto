@@ -27,7 +27,7 @@ segmentation and styling in one go.
 To use this package, ensure the `rust_canto.wasm` file is in your project directory.
 
 ```typ
-#import "@preview/auto-canto:0.2.2": quick-render
+#import "@preview/auto-canto:0.2.3": quick-render
 
 // 36pt font
 // use Libertinus Serif first (for ruby text)
@@ -65,7 +65,7 @@ package.
 
 ```typ
 #import "@preview/se-jyutcitzi:0.3.2": *
-#import "@preview/auto-canto:0.2.2": *
+#import "@preview/auto-canto:0.2.3": *
 // #set page(height: auto, width: auto, margin: 1pt)
 #set text(24pt, font: "Chiron GoRound TC")
 #set par(justify: true)
